@@ -52,7 +52,7 @@ public class EmployeeController {
      * @param id- The employee id
      * @return Reporting Structure of the Employee and number of reports under that employee
      */
-    @GetMapping("/emplyee/reportingStructure/{id}")
+    @GetMapping("/employee/reportingStructure/{id}")
     public ReportingStructure readStructure(@PathVariable String id){
         return this.reportingStructureService.getReportingStructure(id);
     }
