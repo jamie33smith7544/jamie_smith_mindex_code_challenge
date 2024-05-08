@@ -1,5 +1,9 @@
 package com.mindex.challenge.data;
 
+/**
+ * Model that contains an employee, and total number of reports
+ * Also includes getters and setters for varaibles associated for this type
+ */
 public class ReportingStructure {
     private Employee employee;
     private Integer numberOfReports;

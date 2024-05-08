@@ -16,14 +16,14 @@ public class ReportingStructureServiceImpl implements ReportingStructureService{
     // Initialize logger for class
     private static final Logger LOG = LoggerFactory.getLogger(ReportingStructureService.class);
 
-    // Automatically wire the in memory database
+    // Wire new employee service
     @Autowired
     private EmployeeService employeeService;
 
     /**
      * Service function that initializes ReportingStructure and sets all the variables
      * @param employeeId
-     * @return reportingStructure - Main Employee and total of employees who report
+     * @return reportingStructure of main employee and total of employees who report to them
      */
     @Override
     public ReportingStructure getReportingStructure(String employeeId) {
@@ -32,7 +32,7 @@ public class ReportingStructureServiceImpl implements ReportingStructureService{
         ReportingStructure reportingStructure = new ReportingStructure();
         Employee mainEmployee = employeeService.read(employeeId);
 
-        // set employee and Number of reports
+        // set employee and number of reports
         reportingStructure.setEmployee(mainEmployee);
         reportingStructure.setNumberOfReports(countReports(mainEmployee, mainEmployee.getEmployeeId()));
 
@@ -40,10 +40,10 @@ public class ReportingStructureServiceImpl implements ReportingStructureService{
     }
 
     /**
-     * Recursive function to loop through all sub levels of employees and count the total reports
+     * Recursive function to loop through all sub-levels of employees and count the total reports
      * @param employee- current employee to search directReports from
      * @param mainId- passed in main employee id to prevent being added to report total
-     * @return reports- the number of reports for a certain employee
+     * @return the number of reports for a certain employee
      */
     public int countReports(Employee employee, String mainId){
         Employee currentEmployee;
