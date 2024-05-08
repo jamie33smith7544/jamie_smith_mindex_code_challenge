@@ -56,4 +56,11 @@ public class EmployeeController {
     public ReportingStructure readStructure(@PathVariable String id){
         return this.reportingStructureService.getReportingStructure(id);
     }
+
+    @PostMapping("/employee/compensation")
+    public Employee addCompensation(@RequestBody Employee employee) {
+        LOG.debug("Received employee and compensation add request [{}]", employee);
+
+        return employeeService.create(employee);
+    }
 }
