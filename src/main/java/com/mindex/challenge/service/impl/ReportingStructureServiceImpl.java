@@ -16,7 +16,7 @@ public class ReportingStructureServiceImpl implements ReportingStructureService{
     // Initialize logger for class
     private static final Logger LOG = LoggerFactory.getLogger(ReportingStructureService.class);
 
-    // Wire new employee service
+    // Wire employee service
     @Autowired
     private EmployeeService employeeService;
 
