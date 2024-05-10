@@ -52,43 +52,21 @@ public class EmployeeController {
      * @param id- The employee id
      * @return Reporting Structure of the Employee and number of reports under that employee
      */
-    @GetMapping("/employee/reportingStructure/{id}")
-    public ResponseEntity<ReportingStructure> readStructure(@PathVariable String id){
-        ResponseEntity response;
-
-        try{
-            return new ResponseEntity<>(this.employeeService.getReportingStructure(id), HttpStatus.OK);
-        }
-        catch (Exception e){
-            LOG.debug("There was an issue getting reporting structure");
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    @GetMapping("/employee/{id}/reportingStructure")
+    public ReportingStructure readStructure(@PathVariable String id){
+        return this.employeeService.getReportingStructure(id);
     }
 
     @PutMapping("/employee/{id}/addCompensation")
-    public ResponseEntity<Employee> addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
+    public Employee addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
         LOG.debug("Received employee and compensation add request with id: [{}]", id);
-
-        try {
-            return new ResponseEntity<>(employeeService.addCompensation(id, compensation), HttpStatus.OK);
-        }
-        catch (Exception e){
-            LOG.debug("There was an issue adding compensation");
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return employeeService.addCompensation(id, compensation);
     }
 
     @GetMapping("/employee/{id}/compensation")
-    public ResponseEntity<Compensation> addCompensation(@PathVariable String id) {
+    public Compensation addCompensation(@PathVariable String id) {
         LOG.debug("Received request to get compensation for employee: [{}]", id);
 
-        try{
-            return new ResponseEntity<>(employeeService.getEmployeeCompensation(id), HttpStatus.OK);
-        }
-        catch (Exception e){
-            LOG.debug("There was an issue retrieving compensation");
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return employeeService.getEmployeeCompensation(id);
     }
 }
