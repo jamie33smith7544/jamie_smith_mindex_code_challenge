@@ -48,6 +48,10 @@
     "firstName" : "George",
     "lastName" : "Harrison",
     "position" : "Developer III",
-    "department" : "Engineering"
+    "department" : "Engineering",
+    "compensation": {
+      "salary" : 117000,
+      "effectiveDate" : "2024-05-27"
+    }
   }
 ]
