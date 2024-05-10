@@ -1,5 +1,6 @@
 package com.mindex.challenge.controller;
 
+import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.EmployeeService;
@@ -55,5 +56,17 @@ public class EmployeeController {
     @GetMapping("/employee/reportingStructure/{id}")
     public ReportingStructure readStructure(@PathVariable String id){
         return this.reportingStructureService.getReportingStructure(id);
+    }
+
+    @PutMapping("/employee/{id}/addCompensation")
+    public Employee addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
+        LOG.debug("Received employee and compensation add request with id: [{}]", id);
+        return employeeService.addCompensation(id, compensation);
+    }
+
+    @GetMapping("/employee/{id}/compensation")
+    public Compensation addCompensation(@PathVariable String id) {
+        LOG.debug("Received request to get compensation for employee: [{}]", id);
+        return employeeService.getEmployeeCompensation(id);
     }
 }
