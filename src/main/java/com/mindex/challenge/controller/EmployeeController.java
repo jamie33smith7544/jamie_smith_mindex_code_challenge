@@ -4,10 +4,11 @@ import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.EmployeeService;
-import com.mindex.challenge.service.ReportingStructureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,16 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.http.HttpResponse;
+
 @RestController
 public class EmployeeController {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeService employeeService;
-
-    // Initialize the Reporting Structure Service
-    @Autowired
-    private ReportingStructureService reportingStructureService;
 
     @PostMapping("/employee")
     public Employee create(@RequestBody Employee employee) {
@@ -54,19 +53,42 @@ public class EmployeeController {
      * @return Reporting Structure of the Employee and number of reports under that employee
      */
     @GetMapping("/employee/reportingStructure/{id}")
-    public ReportingStructure readStructure(@PathVariable String id){
-        return this.reportingStructureService.getReportingStructure(id);
+    public ResponseEntity<ReportingStructure> readStructure(@PathVariable String id){
+        ResponseEntity response;
+
+        try{
+            return new ResponseEntity<>(this.employeeService.getReportingStructure(id), HttpStatus.OK);
+        }
+        catch (Exception e){
+            LOG.debug("There was an issue getting reporting structure");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @PutMapping("/employee/{id}/addCompensation")
-    public Employee addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
+    public ResponseEntity<Employee> addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
         LOG.debug("Received employee and compensation add request with id: [{}]", id);
-        return employeeService.addCompensation(id, compensation);
+
+        try {
+            return new ResponseEntity<>(employeeService.addCompensation(id, compensation), HttpStatus.OK);
+        }
+        catch (Exception e){
+            LOG.debug("There was an issue adding compensation");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/employee/{id}/compensation")
-    public Compensation addCompensation(@PathVariable String id) {
+    public ResponseEntity<Compensation> addCompensation(@PathVariable String id) {
         LOG.debug("Received request to get compensation for employee: [{}]", id);
-        return employeeService.getEmployeeCompensation(id);
+
+        try{
+            return new ResponseEntity<>(employeeService.getEmployeeCompensation(id), HttpStatus.OK);
+        }
+        catch (Exception e){
+            LOG.debug("There was an issue retrieving compensation");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
