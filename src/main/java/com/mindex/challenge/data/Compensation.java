@@ -1,12 +1,19 @@
 package com.mindex.challenge.data;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
+/**
+ * Model that specifies componenets of an employee's compensation
+ * Salary: Integer type
+ * effectiveDate: Date type
+ */
 public class Compensation {
     private Integer salary;
-    private String effectiveDate;
+
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    private Date effectiveDate;
 
     public Compensation() {
     }
@@ -19,10 +26,9 @@ public class Compensation {
         this.salary = salary;
     }
 
-    public String getEffectiveDate(){ return this.effectiveDate;}
+    public Date getEffectiveDate(){ return this.effectiveDate;}
 
-    public void setEffectiveDate(String effectiveDate){
-        //DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        this.effectiveDate = effectiveDate;//dateFormat.format(effectiveDate);
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 }

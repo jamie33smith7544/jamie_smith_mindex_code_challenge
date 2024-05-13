@@ -113,6 +113,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     // Task 2 Code
+
+    /**
+     * Retrives employee from persistence layer, adds a compensation, then updates the employee with the new compensation
+     * @param id
+     * @param compensation
+     * @return Employee with updated compensation variable
+     */
     @Override
     public Employee addCompensation(String id, Compensation compensation) {
         Employee employee = employeeRepository.findByEmployeeId(id);
@@ -121,6 +128,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return this.update(employee);
     }
 
+    /**
+     * Retrives an employee's compensation from employee id
+     * @param id
+     * @return Compensation found for an employee
+     */
     @Override
     public Compensation getEmployeeCompensation(String id) {
         Employee employee = employeeRepository.findByEmployeeId(id);
