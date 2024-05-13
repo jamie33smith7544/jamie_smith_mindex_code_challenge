@@ -181,7 +181,7 @@ public class EmployeeServiceImplTest {
         employeeGetCompensation.setPosition("Product Owner");
 
         // Convert string to ISO 8601
-        OffsetDateTime odt = OffsetDateTime.parse("2024-06-11T12:00:00.000Z");
+        OffsetDateTime odt = OffsetDateTime.parse("2024-06-11T00:00:00.000Z");
         Instant instant = odt.toInstant();
         Date date = Date.from(instant);
         Compensation compensation = new Compensation();
@@ -191,7 +191,7 @@ public class EmployeeServiceImplTest {
         employeeGetCompensation.setCompensation(compensation);
         employeeGetCompensation = restTemplate.postForEntity(employeeUrl, employeeGetCompensation, Employee.class).getBody();
 
-        odt = OffsetDateTime.parse("2024-06-22T12:00:00.000Z");
+        odt = OffsetDateTime.parse("2024-06-22T00:00:00.000Z");
         instant = odt.toInstant();
         date = Date.from(instant);
         Compensation compensationToAdd = new Compensation();
@@ -214,7 +214,7 @@ public class EmployeeServiceImplTest {
 
         // Assert
         assertCompensationEquivalence(compensationToAdd, employeeWithAddedCompensation.getCompensation()); // added compensation correctly
-        assertCompensationEquivalence(employeeGetCompensation.getCompensation(), employeeCompensation);
+        assertCompensationEquivalence(employeeGetCompensation.getCompensation(), employeeCompensation); // Retrieve compensation correctly
     }
 
     /**
