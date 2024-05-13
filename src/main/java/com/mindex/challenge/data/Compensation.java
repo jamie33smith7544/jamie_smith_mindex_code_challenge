@@ -12,7 +12,7 @@ import java.util.Date;
 public class Compensation {
     private Integer salary;
 
-    //@JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date effectiveDate;
 
     public Compensation() {
