@@ -4,7 +4,6 @@ import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.EmployeeService;
-import com.mindex.challenge.service.ReportingStructureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+
+import java.net.http.HttpResponse;
 
 @RestController
 public class EmployeeController {
@@ -21,10 +23,6 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-
-    // Initialize the Reporting Structure Service
-    @Autowired
-    private ReportingStructureService reportingStructureService;
 
     @PostMapping("/employee")
     public Employee create(@RequestBody Employee employee) {
@@ -53,20 +51,32 @@ public class EmployeeController {
      * @param id- The employee id
      * @return Reporting Structure of the Employee and number of reports under that employee
      */
-    @GetMapping("/employee/reportingStructure/{id}")
+    @GetMapping(value = "/employee/{id}/reportingStructure", produces = MediaType.APPLICATION_JSON_VALUE)
     public ReportingStructure readStructure(@PathVariable String id){
-        return this.reportingStructureService.getReportingStructure(id);
+        return this.employeeService.getReportingStructure(id);
     }
 
-    @PutMapping("/employee/{id}/addCompensation")
+    /**
+     * PUT endpoint to update employee with a new compensation
+     * @param compensation
+     * @param id
+     * @return Employee with compensation added
+     */
+    @PutMapping(value="/employee/{id}/addCompensation", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee addCompensation(@RequestBody Compensation compensation, @PathVariable String id) {
         LOG.debug("Received employee and compensation add request with id: [{}]", id);
         return employeeService.addCompensation(id, compensation);
     }
 
-    @GetMapping("/employee/{id}/compensation")
+    /**
+     * GET endpoint to fetch employee compensation data
+     * @param id
+     * @return an employee's compensation data
+     */
+    @GetMapping(value="/employee/{id}/compensation", produces = MediaType.APPLICATION_JSON_VALUE)
     public Compensation addCompensation(@PathVariable String id) {
         LOG.debug("Received request to get compensation for employee: [{}]", id);
+
         return employeeService.getEmployeeCompensation(id);
     }
 }
